@@ -1,0 +1,18 @@
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: "/"
+    schedule:
+      interval: daily
+    open-pull-requests-limit: 5
+    allow:
+      - dependency-name: "@sitecore-content-sdk/*"
+    labels:
+      - dependencies
+    groups:
+      content-sdk-patch:
+        patterns: ["@sitecore-content-sdk/*"]
+        update-types: ["patch"]
+      content-sdk-minor-major:
+        patterns: ["@sitecore-content-sdk/*"]
+        update-types: ["minor", "major"]

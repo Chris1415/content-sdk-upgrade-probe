@@ -1,0 +1,29 @@
+name: Dependabot auto-merge
+on: pull_request
+permissions:
+  contents: write
+  pull-requests: write
+jobs:
+  triage:
+    if: github.actor == 'dependabot[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - id: meta
+        uses: dependabot/fetch-metadata@v2
+        with:
+          github-token: "${{ secrets.GITHUB_TOKEN }}"
+      - name: Patch updates auto-merge once required checks are green
+        if: steps.meta.outputs.update-type == 'version-update:semver-patch'
+        run: gh pr merge --auto --squash "$PR_URL"
+        env:
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Minor and major updates wait for a human
+        if: steps.meta.outputs.update-type != 'version-update:semver-patch'
+        run: |
+          gh pr edit "$PR_URL" --add-label needs-review
+          gh pr comment "$PR_URL" --body "This is a ${UPDATE_TYPE} update. It does not auto-merge. A human must review it."
+        env:
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          UPDATE_TYPE: ${{ steps.meta.outputs.update-type }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
