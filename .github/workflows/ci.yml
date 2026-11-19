@@ -22,5 +22,6 @@ jobs:
           echo '[]' > .sitecore/sites.json
           printf 'export const importMap = [];\nexport default importMap;\n' > .sitecore/import-map.server.ts
           cp .sitecore/import-map.server.ts .sitecore/import-map.client.ts
+          echo '{"packages":{}}' > .sitecore/metadata.json
       - name: Type check
         run: npx tsc --noEmit
