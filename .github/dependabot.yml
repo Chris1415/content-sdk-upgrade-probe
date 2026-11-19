@@ -1,3 +1,4 @@
+# patch updates auto-merge (see workflow); minor and major wait for a human
 version: 2
 updates:
   - package-ecosystem: npm
