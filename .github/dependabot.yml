@@ -1,4 +1,4 @@
-# patch updates auto-merge (see workflow); minor and major wait for a human
+# Only patches are grouped. Minor and major updates come as individual PRs (no group pattern overlaps).
 version: 2
 updates:
   - package-ecosystem: npm
@@ -14,6 +14,3 @@ updates:
       content-sdk-patch:
         patterns: ["@sitecore-content-sdk/*"]
         update-types: ["patch"]
-      content-sdk-minor-major:
-        patterns: ["@sitecore-content-sdk/*"]
-        update-types: ["minor", "major"]
